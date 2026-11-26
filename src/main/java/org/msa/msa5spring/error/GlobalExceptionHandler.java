@@ -1,5 +1,6 @@
 package org.msa.msa5spring.error;
 
+import lombok.extern.slf4j.Slf4j;
 import org.msa.msa5spring.response.GlobalResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     // ------------------------------------------------
@@ -50,13 +52,19 @@ public class GlobalExceptionHandler {
                                 "유효성 체크 에러",
                                 errors
                         )
-                )
+                );
     }
     // ------------------------------------------------
     // 그 외 모든 예외 처리 핸들러 메소드
     @ExceptionHandler(Exception.class) // Exception만 적으면 단순히 타입을 말하는 거
     public ResponseEntity<GlobalResponseDTO<Void>> handle(Exception e) {
         // ArrayList<Integer> test = new ArrayList<>();
+        log.trace("트레이스 로깅");
+        log.debug("디버그 로깅");
+        log.info("인포 로깅");
+        log.warn("워닝 로깅");
+        log.error("에러 로깅");
+
         return ResponseEntity.status(500).body(
                 new GlobalResponseDTO<>(
                         "E99",
